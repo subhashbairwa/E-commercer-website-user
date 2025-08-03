@@ -14,7 +14,7 @@ import SearchBar from './components/SearchBar';
 import { ToastContainer} from 'react-toastify';
 import Orders from './pages/Orders';
 import ShopContextProvider from './context/ShopContext'; // 👈 Import this
-import Verify from './pages/verify';
+// import Verify from './pages/verify';
 
 const App = () => {
   return (
@@ -33,7 +33,6 @@ const App = () => {
           <Route path='/login' element={<Login/>} />
           <Route path='/place-order' element={<PlaceOrder />} />
           <Route path='/orders'  element={<Orders/>}/>
-          <Route path='/verify'  element={<Verify/>}/>
         </Routes>
         <Footer />
       </div>
@@ -42,3 +41,5 @@ const App = () => {
 };
 
 export default App;
+
+{/* <Route path='/verify'  element={<Verify/>}/> */}
