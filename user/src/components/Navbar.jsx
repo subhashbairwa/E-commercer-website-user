@@ -114,7 +114,7 @@ const Navbar = () => {
      
               <p
   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-  onClick={() => window.open('http://localhost:5174/')}
+  onClick={() => window.open('https://e-commercer-website-t8ut.vercel.app')}
 >
   Admin Panel
 </p>
