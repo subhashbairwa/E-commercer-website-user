@@ -5,7 +5,8 @@ import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false); // 👈 Add this
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
   const {
     setShowSearch,
     getCartCount,
@@ -14,6 +15,7 @@ const Navbar = () => {
     setToken,
     setCartItems,
   } = useContext(ShopContext);
+
   const location = useLocation();
 
   const logout = () => {
@@ -21,20 +23,18 @@ const Navbar = () => {
     localStorage.removeItem("token");
     setToken("");
     setCartItems({});
-    setShowProfileMenu(false); // 👈 Hide menu on logout
+    setShowProfileMenu(false);
   };
 
-  // ✅ Auto-open search bar on /collection, close on other routes
   useEffect(() => {
     if (location.pathname === "/collection") {
       setShowSearch(true);
     } else {
       setShowSearch(false);
     }
-    setShowProfileMenu(false); // 👈 Hide menu on route change
+    setShowProfileMenu(false);
   }, [location.pathname, setShowSearch]);
 
-  // Hide profile menu on outside click
   useEffect(() => {
     const handler = (e) => {
       if (!e.target.closest("#profile-menu")) setShowProfileMenu(false);
@@ -44,7 +44,8 @@ const Navbar = () => {
   }, [showProfileMenu]);
 
   return (
-    <div className="flex items-center justify-between px-4 sm:px-8 py-4 bg-white shadow-md relative z-30">
+    <div className="flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 bg-white shadow-md relative z-30">
+      {/* Logo */}
       <Link to="/">
         <img
           src={assets.logo}
@@ -53,6 +54,7 @@ const Navbar = () => {
         />
       </Link>
 
+      {/* Desktop Menu */}
       <ul className="hidden sm:flex gap-6 text-sm text-gray-700">
         {["/", "/collection", "/about", "/contact"].map((path, i) => {
           const names = ["HOME", "COLLECTION", "ABOUT", "CONTACT"];
@@ -73,73 +75,69 @@ const Navbar = () => {
         })}
       </ul>
 
+      {/* Icons - Always Visible */}
       <div className="flex items-center gap-5 sm:gap-6">
-        {/* ✅ Always show search icon */}
+        {/* Search */}
         <img
           src={assets.search_icon}
-          className="w-5 cursor-pointer opacity-70 hover:opacity-100"
+          className="w-5 sm:w-5 cursor-pointer opacity-70 hover:opacity-100"
           alt="Search"
           onClick={() => setShowSearch(true)}
         />
 
-        <div className="relative hidden sm:block" id="profile-menu">
+        {/* Profile */}
+        <div className="relative" id="profile-menu">
           <img
             onClick={() => token ? setShowProfileMenu((v) => !v) : navigate('/login')}
             src={assets.profile_icon}
-            className="w-5 cursor-pointer"
+            className="w-5 sm:w-5 cursor-pointer"
             alt="Profile"
           />
           {token && showProfileMenu && (
             <div className="absolute right-0 mt-1 w-40 bg-gray-100 rounded shadow-lg py-1 z-50">
-              <p
-            
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  cursor-pointer"
-              >
+              <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 cursor-pointer">
                 My Profile
               </p>
               <p
-               
-                onClick={()=>navigate("/orders")}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                onClick={() => navigate("/orders")}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 cursor-pointer"
               >
                 Orders
               </p>
               <p
-               
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                 onClick={logout}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 cursor-pointer"
               >
                 Logout
               </p>
-     
               <p
-  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-  onClick={() => window.open('https://e-commercer-website-t8ut.vercel.app')}
->
-  Admin Panel
-</p>
-
-
+                onClick={() => window.open("http://localhost:5174/")}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 cursor-pointer"
+              >
+                Admin Panel
+              </p>
             </div>
           )}
         </div>
 
+        {/* Cart */}
         <Link to="/cart" className="relative">
-          <img src={assets.cart_icon} className="w-5" alt="Cart" />
-          <p className="absolute right-[-5px]  bottom-[-5px] w-4 text-center  leading-4 bg-black text-white aspect-square rounded-full text-[8px] ">
+          <img src={assets.cart_icon} className="w-5 sm:w-5" alt="Cart" />
+          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
             {getCartCount()}
           </p>
         </Link>
 
+        {/* Hamburger Menu (Mobile Only) */}
         <img
           src={assets.menu_icon}
-          className="w-5 cursor-pointer sm:hidden"
+          className="w-5 sm:hidden cursor-pointer"
           alt="Menu"
           onClick={() => setVisible(true)}
         />
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Slide Menu */}
       <div
         className={`fixed top-0 right-0 bottom-0 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "translate-x-full"
@@ -148,7 +146,7 @@ const Navbar = () => {
         <div className="p-4 flex justify-end">
           <button
             onClick={() => setVisible(false)}
-            className="text-gray-600 hover:text-gray-800"
+            className="text-gray-600 hover:text-gray-800 text-xl"
           >
             ✕
           </button>
@@ -177,6 +175,7 @@ const Navbar = () => {
         </ul>
       </div>
 
+      {/* Mobile Overlay */}
       {visible && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 sm:hidden"
