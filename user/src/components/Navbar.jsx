@@ -5,7 +5,7 @@ import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false); // 👈 Add this
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const {
     setShowSearch,
     getCartCount,
@@ -21,17 +21,17 @@ const Navbar = () => {
     localStorage.removeItem("token");
     setToken("");
     setCartItems({});
-    setShowProfileMenu(false); // 👈 Hide menu on logout
+    setShowProfileMenu(false);
   };
 
-  // ✅ Auto-open search bar on /collection, close on other routes
+  // ✅ Auto-open search bar on /collection
   useEffect(() => {
     if (location.pathname === "/collection") {
       setShowSearch(true);
     } else {
       setShowSearch(false);
     }
-    setShowProfileMenu(false); // 👈 Hide menu on route change
+    setShowProfileMenu(false);
   }, [location.pathname, setShowSearch]);
 
   // Hide profile menu on outside click
@@ -45,6 +45,7 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between px-4 sm:px-8 py-4 bg-white shadow-md relative z-30">
+      {/* Logo */}
       <Link to="/">
         <img
           src={assets.logo}
@@ -53,6 +54,7 @@ const Navbar = () => {
         />
       </Link>
 
+      {/* Desktop Navigation */}
       <ul className="hidden sm:flex gap-6 text-sm text-gray-700">
         {["/", "/collection", "/about", "/contact"].map((path, i) => {
           const names = ["HOME", "COLLECTION", "ABOUT", "CONTACT"];
@@ -73,8 +75,9 @@ const Navbar = () => {
         })}
       </ul>
 
+      {/* Right Icons */}
       <div className="flex items-center gap-5 sm:gap-6">
-        {/* ✅ Always show search icon */}
+        {/* Search */}
         <img
           src={assets.search_icon}
           className="w-5 cursor-pointer opacity-70 hover:opacity-100"
@@ -82,61 +85,64 @@ const Navbar = () => {
           onClick={() => setShowSearch(true)}
         />
 
-        <div className="relative hidden sm:block" id="profile-menu">
+        {/* ✅ Profile Menu visible on all devices */}
+        <div className="relative" id="profile-menu">
           <img
-            onClick={() => token ? setShowProfileMenu((v) => !v) : navigate('/login')}
+            onClick={() =>
+              token ? setShowProfileMenu((v) => !v) : navigate("/login")
+            }
             src={assets.profile_icon}
             className="w-5 cursor-pointer"
             alt="Profile"
           />
-        {token && showProfileMenu && (
-  <div className="absolute right-0 mt-1 w-40 bg-gray-100 rounded shadow-lg py-1 z-50">
-    <p
-      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-    >
-      My Profile
-    </p>
-    <p
-      onClick={() => navigate("/orders")}
-      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-    >
-      Orders
-    </p>
-    <p
-      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-      onClick={logout}
-    >
-      Logout
-    </p>
-    <p
-      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-      onClick={() => window.open('http://localhost:5174/')}
-    >
-      Admin Panel
-    </p>
-    {/* ✅ New option to wake up Render backend */}
-    <p
-      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-      onClick={() => {
-        fetch("https://e-commercer-website-4.onrender.com/")
-          .then(() => alert("Backend pinged! It should be active shortly."))
-          .catch(() => alert("Failed to reach backend."));
-      }}
-    >
-      Wake Backend
-    </p>
-  </div>
-)}
-
+          {token && showProfileMenu && (
+            <div className="absolute right-0 mt-1 w-40 bg-gray-100 rounded shadow-lg py-1 z-50">
+              <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                My Profile
+              </p>
+              <p
+                onClick={() => navigate("/orders")}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              >
+                Orders
+              </p>
+              <p
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                onClick={logout}
+              >
+                Logout
+              </p>
+              <p
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                onClick={() => window.open("http://localhost:5174/")}
+              >
+                Admin Panel
+              </p>
+              <p
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                  fetch("https://e-commercer-website-4.onrender.com/")
+                    .then(() =>
+                      alert("Backend pinged! It should be active shortly.")
+                    )
+                    .catch(() => alert("Failed to reach backend."));
+                }}
+              >
+                Wake Backend
+              </p>
+            </div>
+          )}
         </div>
 
+        {/* Cart */}
         <Link to="/cart" className="relative">
           <img src={assets.cart_icon} className="w-5" alt="Cart" />
-          <p className="absolute right-[-5px]  bottom-[-5px] w-4 text-center  leading-4 bg-black text-white aspect-square rounded-full text-[8px] ">
+          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
             {getCartCount()}
           </p>
         </Link>
 
+        {/* Mobile Menu Icon */}
         <img
           src={assets.menu_icon}
           className="w-5 cursor-pointer sm:hidden"
@@ -183,6 +189,7 @@ const Navbar = () => {
         </ul>
       </div>
 
+      {/* Overlay */}
       {visible && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 sm:hidden"
