@@ -113,7 +113,7 @@ const Navbar = () => {
                   Logout
                 </p>
                 <p
-                  onClick={() => window.open("http://localhost:5174/")}
+                  onClick={() => window.open("https://e-commercer-website-t8ut.vercel.app/")}
                   className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                 >
                   Admin Panel
