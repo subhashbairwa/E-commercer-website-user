@@ -54,7 +54,7 @@ const Navbar = () => {
         <Link to="/" className="shrink-0">
         <img
   src={assets.new_logo}
-  className="w-10 sm:w-15 transition hover:scale-105"
+  className="w-10 sm:w-15 transition  rounded-lg hover:scale-105"
   alt="logo"
 />
 
