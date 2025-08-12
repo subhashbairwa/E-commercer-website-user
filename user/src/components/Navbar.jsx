@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { assets } from "../assets/assets";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
-import new_logo from "./assets/new_logo.jpg";
+
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
@@ -53,7 +53,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="shrink-0">
           <img
-            src={new_logo}
+            src={assets.new_logo}
             className="w-24 sm:w-32 transition hover:scale-105"
             alt="logo"
           />
