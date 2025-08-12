@@ -52,11 +52,12 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-4 sm:px-8 py-3">
         {/* Logo */}
         <Link to="/" className="shrink-0">
-          <img
-            src={assets.new_logo}
-            className="w-24 sm:w-32 transition hover:scale-105"
-            alt="logo"
-          />
+        <img
+  src={assets.new_logo}
+  className="w-16 sm:w-20 transition hover:scale-105"
+  alt="logo"
+/>
+
         </Link>
 
         {/* Desktop Navigation */}
